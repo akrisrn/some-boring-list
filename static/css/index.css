@@ -1,0 +1,11 @@
+#frame {
+    opacity: 0.8;
+    mix-blend-mode: darken;
+    background: url(/static/img/cover.jpg) no-repeat center;
+}
+
+#cover {
+    color: dimgrey;
+    height: 950px;
+    text-align: right;
+}

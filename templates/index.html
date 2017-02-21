@@ -1,0 +1,11 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---Index
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') | version }}">
+{%- endblock -%}
+{%- block content -%}
+  <div id="cover"></div>
+{%- endblock -%}

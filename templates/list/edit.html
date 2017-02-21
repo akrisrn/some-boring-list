@@ -1,0 +1,59 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---Edit
+{%- endblock -%}
+{%- block content -%}
+  <form method="post">
+    <label>
+      Name:
+      <input type="text" name="name" value="{{ item[1] }}">
+    </label><br>
+    State:
+    <label>
+      <input type="radio" name="state" value="0"
+              {%- if item[2] == 0 -%}
+             checked
+              {%- endif -%}
+      >Todo
+    </label>
+    <label>
+      <input type="radio" name="state" value="1"
+              {%- if item[2] == 1 -%}
+             checked
+              {%- endif -%}
+      >Done
+    </label>
+    <label>
+      <input type="radio" name="state" value="2"
+              {%- if item[2] == 2 -%}
+             checked
+              {%- endif -%}
+      >Undo
+    </label><br>
+    <label>
+      Add date:
+      <input type="date" name="addDate" value="{{ item[3] }}">
+    </label><br>
+    <label>
+      Complete date:
+      <input type="date" name="comDate" value="{{ item[4] }}">
+    </label><br>
+    <label>
+      Score:
+      <input type="number" min="0" max="10" name="score" value="{{ item[5] }}">
+    </label><br>
+    <label>
+      Tag:
+      <input type="text" name="tag" value="{{ item[8] }}">
+    </label><br>
+    <label>
+      Review:
+      <textarea id="review" name="review">
+      {%- if item[7] -%}
+        {{ item[7] }}
+      {%- endif -%}
+    </textarea>
+    </label><br>
+    <button type="submit">Submit</button>
+  </form>
+{%- endblock -%}

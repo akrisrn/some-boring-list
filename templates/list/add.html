@@ -1,0 +1,48 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---Add
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/list/add.js') | version }}"></script>
+{%- endblock -%}
+{%- block content -%}
+  <form method="post">
+    <label>
+      Name:
+      <input type="text" name="name">
+    </label><br>
+    State:
+    <label>
+      <input type="radio" name="state" value="0" checked onclick="show_addDate()">Todo
+    </label>
+    <label>
+      <input type="radio" name="state" value="1" onclick="show_comDate()">Done
+    </label>
+    <label>
+      <input type="radio" name="state" value="2" onclick="show_addDate()">Undo
+    </label><br>
+    <label id="addDate">
+      Add date:
+      <input type="date" name="addDate">
+    </label>
+    <label id="comDate" style="display: none">
+      Complete date:
+      <input type="date" name="comDate">
+    </label><br>
+    <label>
+      Score:
+      <input type="number" min="0" max="10" name="score" value="1">
+    </label><br>
+    <label>
+      Tag:
+      <input type="text" name="tag">
+    </label><br>
+    <label>
+      Review:
+      <input type="checkbox" name="isReview" onclick="show_review()">
+    </label>
+    <textarea id="review" name="review" title="review" style="display: none"></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+{%- endblock -%}

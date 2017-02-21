@@ -1,0 +1,37 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---Edit
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/blog/edit.js') | version }}"></script>
+{%- endblock -%}
+{%- block content -%}
+  <form method="post">
+    <label>
+      Title:
+      <input type="text" name="title" value="{{ post[1] }}">
+    </label><br>
+    <label>
+      Add date:
+      <input type="date" name="addDate" value="{{ post[3] }}">
+    </label><br>
+    <label id="updDate">
+      Update date:
+      <input type="date" name="updDate">
+    </label><br>
+    <label>
+      Tag:
+      <input type="text" name="tag" value="{{ post[5] }}">
+    </label><br>
+    <label>
+      Content:
+      <textarea id="content" name="content">
+      {%- if post[2] -%}
+        {{ post[2] }}
+      {%- endif -%}
+    </textarea>
+    </label><br>
+    <button type="submit">Submit</button>
+  </form>
+{%- endblock -%}

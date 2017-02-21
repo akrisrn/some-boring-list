@@ -1,0 +1,5 @@
+Flask==0.12
+Markdown==2.6.7
+pymdown_extensions==1.6
+PyMySQL==0.7.9
+xpinyin==0.5.4

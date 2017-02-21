@@ -1,0 +1,32 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---{{ item[1] }}
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github-markdown.css') | version }}">
+{%- endblock -%}
+{%- block content -%}
+  <strong>{{ item[1] }}</strong>
+  <hr>
+  <div class="date">
+    Add date: {{ item[3] }}&nbsp;
+    Complete date: {{ item[4] }}&nbsp;
+    Score: {{ item[5] }}&nbsp;
+    Tag:&nbsp;
+    {%- for tag in item[7].split(";") -%}
+      {{ tag }}&nbsp;
+    {%- endfor -%}
+    {%- if editable -%}
+      <div class="edit"><a href="{{ url_for('sbl_list.edit', item_id=item[0]) }}">Edit</a></div>
+    {%- endif -%}
+  </div>
+  <br>
+  <div class="markdown-body">
+    {%- if item[8] -%}
+      {{- item[8] | safe -}}
+    {%- else -%}
+      <p>There's nothing here.</p>
+    {%- endif -%}
+  </div>
+{%- endblock -%}

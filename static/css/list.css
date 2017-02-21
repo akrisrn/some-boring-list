@@ -1,0 +1,133 @@
+body {
+    font-size: 16px;
+    font-family: "Lucida Grande", Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;
+    background: url("../img/texture.png");
+    margin: 0;
+    padding: 0;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 1px;
+    border: none;
+    border-top: 1px solid darkgray;
+}
+
+hr:before {
+    content: url("../img/bookmark.png");
+    float: right;
+    margin-top: -1px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: dimgrey;
+}
+
+#frame {
+    max-width: 800px;
+    margin: 20px auto;
+    position: relative;
+    left: 0;
+    right: 0;
+    padding: 40px;
+    background: white;
+    box-shadow: 0 2px 10px 2px gainsboro;
+}
+
+#frame form {
+    line-height: 36px;
+}
+
+#footer {
+    float: right;
+    text-align: right;
+    margin-top: 45px;
+    margin-bottom: 20px;
+    margin-right: -30px;
+    color: dimgrey;
+    font-size: small;
+}
+
+#footer a {
+    margin-left: 5px;
+    color: dimgrey;
+    display: inline-block;
+}
+
+#footer a:hover {
+    color: black;
+}
+
+.des, .date {
+    display: inline;
+    color: dimgrey;
+    font-size: small;
+}
+
+.markdown-body {
+    margin-top: 10px;
+}
+
+.edit {
+    display: inline;
+    font-size: small;
+    padding-left: 5px;
+}
+
+.edit a {
+    color: dimgrey;
+}
+
+.edit a:hover {
+    color: black;
+}
+
+.tag {
+    display: inline;
+    font-size: x-small;
+    border-radius: 5px;
+    padding: 2px;
+    opacity: 0.8;
+    margin-right: 3px;
+}
+
+.post, .item {
+    display: inline;
+    font-size: medium;
+    padding-right: 5px;
+}
+
+.hideTodo, .hideDone, .hideUndo {
+    display: none;
+}
+
+.slideUpTodo a, .slideUpDone a, .slideUpUndo a,
+.slideDownTodo a, .slideDownDone a, .slideDownUndo a {
+    color: dimgrey;
+    font-size: small;
+}
+
+.star {
+    display: inline;
+    font-size: small;
+}
+
+#content, #review {
+    width: 100%;
+    height: 300px;
+    resize: none;
+    line-height: 25px;
+}
+
+@media screen and (max-width: 900px) {
+    #frame {
+        margin-top: 0;
+        max-width: 900px;
+    }
+}

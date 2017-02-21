@@ -1,0 +1,148 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---
+  {%- if year -%}
+    {{ year }}
+  {%- endif -%}
+  {%- if tag -%}
+    {{ tag }}
+  {%- endif -%}
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='raty/jquery.raty.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='raty/jquery.raty.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/list/list.js') | version }}"></script>
+{%- endblock -%}
+{%- block content -%}
+  <strong>SomeBoringList: </strong>
+  {{ list[3][0] }} / {{ list[3][1] }}
+  {%- if list[3][1] -%}
+    （{{ "%.2f" % (list[3][0] / list[3][1] * 100) }}%）
+  {%- else -%}
+    （{{ "%.2f" % 0 }}%）
+  {%- endif -%}
+  <div class="date">——
+    {%- if year -%}
+      {{ year }}
+    {%- endif -%}
+    {%- if tag -%}
+      {{ tag }}
+    {%- endif -%}
+  </div>
+  {%- if editable -%}
+    <div class="edit"><a href="{{ url_for('sbl_list.add') }}">Add</a></div>
+  {%- endif -%}
+  <hr>
+  <strong>Todo</strong>
+  <ol>
+    {%- for l in list[0] -%}
+      <li>
+        {%- for tag in l[3].split(";") -%}
+          <div class="tag">{{ tag }}</div>
+        {%- endfor -%}
+        <div class="item">{{ l[1] }}</div>
+        <div class="date">
+          {%- if year -%}
+            ——{{ "%02d-%02d" % (l[2].month, l[2].day) }}
+          {%- else -%}
+            ——{{ l[2] }}
+          {%- endif -%}
+        </div>
+        {%- if editable -%}
+          <div class="edit"><a href="{{ url_for('sbl_list.edit', item_id=l[0]) }}">Edit</a></div>
+        {%- endif -%}
+      </li>
+      {%- if loop.length > 5 -%}
+        {%- if loop.index == 5 -%}
+          <div class="slideUpTodo"><a href="#">----------Show----------</a></div>
+          <div class="hideTodo">
+        {%- endif -%}
+      {%- if loop.index == loop.length -%}
+        <div class="slideDownTodo"><a href="#">----------Hide----------</a></div>
+        </div>
+      {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </ol>
+  <hr>
+  <strong>Done</strong>
+  <ol>
+    {%- for l in list[1] -%}
+      <li>
+        {%- for tag in l[5].split(";") -%}
+          <div class="tag">{{ tag }}</div>
+        {%- endfor -%}
+        {%- if l[4] -%}
+          <a href="{{ url_for('sbl_list.item_show', item_id=l[0]) }}">
+        {%- endif -%}
+        <div class="item">{{ l[1] }}</div>
+        {%- if l[4] -%}
+          </a>
+        {%- endif -%}
+        <div class="star" data-score="{{ l[3]/2 }}"></div>
+        <div class="date">
+          {%- if year -%}
+            ——{{ "%02d-%02d" % (l[2].month, l[2].day) }}
+          {%- else -%}
+            ——{{ l[2] }}
+          {%- endif -%}
+        </div>
+        {%- if editable -%}
+          <div class="edit"><a href="{{ url_for('sbl_list.edit', item_id=l[0]) }}">Edit</a></div>
+        {%- endif -%}
+      </li>
+      {%- if loop.length > 10 -%}
+        {%- if loop.index == 10 -%}
+          <div class="slideUpDone"><a href="#">----------Show----------</a></div>
+          <div class="hideDone">
+        {%- endif -%}
+      {%- if loop.index == loop.length -%}
+        <div class="slideDownDone"><a href="#">----------Hide----------</a></div>
+        </div>
+      {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </ol>
+  <hr>
+  <strong>Undo</strong>
+  <ol>
+    {%- for l in list[2] -%}
+      <li>
+        {%- for tag in l[4].split(";") -%}
+          <div class="tag">{{ tag }}</div>
+        {%- endfor -%}
+        {%- if l[3] -%}
+          <a href="{{ url_for('sbl_list.item_show', item_id=l[0]) }}">
+        {%- endif -%}
+        <div class="item">{{ l[1] }}</div>
+        {%- if l[3] -%}
+          </a>
+        {%- endif -%}
+        <div class="date">
+          {%- if year -%}
+            ——{{ "%02d-%02d" % (l[2].month, l[2].day) }}
+          {% else %}
+            ——{{ l[2] }}
+          {%- endif -%}
+        </div>
+        {%- if editable -%}
+          <div class="edit"><a href="{{ url_for('sbl_list.edit', item_id=l[0]) }}">Edit</a></div>
+        {%- endif -%}
+      </li>
+      {%- if loop.length > 5 -%}
+        {%- if loop.index == 5 -%}
+          <div class="slideUpUndo"><a href="#">----------Show----------</a>
+          </div>
+          <div class="hideUndo">
+        {%- endif -%}
+      {%- if loop.index == loop.length -%}
+        <div class="slideDownUndo"><a href="#">----------Hide----------</a>
+        </div>
+        </div>
+      {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </ol>
+{%- endblock -%}

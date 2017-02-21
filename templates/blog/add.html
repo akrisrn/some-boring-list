@@ -1,0 +1,29 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---Add
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/blog/add.js') | version }}"></script>
+{%- endblock -%}
+{%- block content -%}
+  <form method="post">
+    <label>
+      Title:
+      <input type="text" name="title">
+    </label><br>
+    <label id="addDate">
+      Add date:
+      <input type="date" name="addDate">
+    </label><br>
+    <label>
+      Tag:
+      <input type="text" name="tag">
+    </label><br>
+    <label>
+      Content:
+      <textarea id="content" name="content"></textarea>
+    </label><br>
+    <button type="submit">Submit</button>
+  </form>
+{%- endblock -%}

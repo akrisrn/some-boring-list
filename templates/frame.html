@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  {%- block head -%}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{%- block title -%}{%- endblock -%}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') | version }}">
+  {%- endblock -%}
+</head>
+<body>
+<div id="frame">
+  {%- block content -%}
+  {%- endblock -%}
+  <div id="footer">
+    {%- if nav[0] or nav[1] -%}
+      <a href="{{ url_for('sbl_list.index') }}">List </a>——
+    {%- endif -%}
+    {%- for y in nav[0] -%}
+      <a href="{{ url_for('sbl_list.index', year=y[0]) }}">{{ y[0] }}</a>
+    {%- endfor -%}
+    {%- for t in nav[1] -%}
+      <a href="{{ url_for('sbl_list.index', tag=t) }}">{{ t }}</a>
+    {%- endfor -%}<br>
+    {%- if nav[2] -%}
+      <a href="{{ url_for('sbl_blog.index') }}">Blog </a>——
+      {%- for t in nav[2] -%}
+        <a href="{{ url_for('sbl_blog.index', tag=t) }}">{{ t }}</a>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+</body>
+</html>

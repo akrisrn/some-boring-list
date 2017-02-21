@@ -1,0 +1,35 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---{{ name }}
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/blog/blog.js') | version }}"></script>
+{%- endblock -%}
+{%- block content -%}
+  <strong>{{ name }}</strong>
+  <div class="des">——{{ des }}</div>
+  {%- if editable -%}
+    <div class="edit"><a href="{{ url_for('sbl_blog.add') }}">Add</a></div>
+  {%- endif -%}
+  <hr>
+  <ul>
+    {%- for b in blog -%}
+      {%- if b[3].find(secret_tag) == -1 or editable -%}
+        <li>
+          {%- for tag in b[3].split(";") -%}
+            <div class="tag">{{ tag }}</div>
+          {%- endfor -%}
+          <a href="{{ url_for('sbl_blog.post_show', post_id=b[0]) }}">
+            <div class="post">{{ b[1] }}</div>
+          </a>
+          <div class="date">——{{ b[2] }}</div>
+          {%- if editable -%}
+            <div class="edit"><a href="{{ url_for('sbl_blog.edit', post_id=b[0]) }}">Edit</a></div>
+          {%- endif -%}
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endblock -%}

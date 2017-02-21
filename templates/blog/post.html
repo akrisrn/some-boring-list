@@ -1,0 +1,31 @@
+{%- extends "frame.html" -%}
+{%- block title -%}
+  SBL---{{ post[1] }}
+{%- endblock -%}
+{%- block head -%}
+  {{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github-markdown.css') | version }}">
+{%- endblock -%}
+{%- block content -%}
+  <strong>{{ post[1] }}</strong>
+  <hr>
+  <div class="date">
+    Add date: {{ post[2] }}&nbsp;
+    Update date: {{ post[3] }}&nbsp;
+    Tag:&nbsp;
+    {%- for tag in post[4].split(";") -%}
+      {{ tag }}&nbsp;
+    {%- endfor -%}
+    {%- if editable -%}
+      <div class="edit"><a href="{{ url_for('sbl_blog.edit', post_id=post[0]) }}">Edit</a></div>
+    {%- endif -%}
+  </div>
+  <br>
+  <div class="markdown-body">
+    {%- if post[5] -%}
+      {{- post[5] | safe -}}
+    {%- else -%}
+      <p>There's nothing here.</p>
+    {%- endif -%}
+  </div>
+{%- endblock -%}

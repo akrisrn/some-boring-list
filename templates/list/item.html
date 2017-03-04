@@ -4,7 +4,7 @@
 {%- endblock -%}
 {%- block head -%}
   {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github-markdown.css') | version }}">
+  <link rel="stylesheet" type="text/css" href="{{ cdn("github-markdown-css") }}">
 {%- endblock -%}
 {%- block content -%}
   <strong>{{ item[1] }}</strong>
@@ -15,7 +15,7 @@
     Score: {{ item[5] }}&nbsp;
     Tag:&nbsp;
     {%- for tag in item[7].split(";") -%}
-      {{ tag }}&nbsp;
+      <a href="{{ url_for('sbl_list.index', tag=tag) }}">{{ tag }}</a>
     {%- endfor -%}
     {%- if editable -%}
       <div class="edit"><a href="{{ url_for('sbl_list.edit', item_id=item[0]) }}">Edit</a></div>

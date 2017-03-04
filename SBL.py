@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 from settings import SECRET_KEY, DEBUG
 from util.db import get_nav
-from util.util import version
+from util.util import version, cdn
 from view.blog import sbl_blog
 from view.index import sbl_index
 from view.list import sbl_list
@@ -15,7 +15,10 @@ app.register_blueprint(sbl_list, url_prefix='/list')
 app.register_blueprint(sbl_blog, url_prefix='/blog')
 app.register_blueprint(sbl_login)
 app.register_blueprint(sbl_redirect)
+app.jinja_env.auto_reload = True
 app.jinja_env.filters['version'] = version
+app.jinja_env.globals.update(get_nav=get_nav)
+app.jinja_env.globals.update(cdn=cdn)
 
 app.secret_key = SECRET_KEY
 app.debug = DEBUG
@@ -23,7 +26,7 @@ app.debug = DEBUG
 
 @app.errorhandler(404)
 def error_page(error):
-    return render_template('error.html', error=error, nav=get_nav()), 404
+    return render_template('error.html', error=error), 404
 
 
 if __name__ == '__main__':

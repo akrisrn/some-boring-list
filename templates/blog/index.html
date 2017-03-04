@@ -1,15 +1,22 @@
 {%- extends "frame.html" -%}
 {%- block title -%}
-  SBL---{{ name }}
+  SBL---
+  {%- if tag -%}
+    {{ tag }}
+  {%- else -%}
+    Blog
+  {%- endif -%}
 {%- endblock -%}
 {%- block head -%}
   {{ super() }}
-  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ cdn("jquery") }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/blog/blog.js') | version }}"></script>
 {%- endblock -%}
 {%- block content -%}
-  <strong>{{ name }}</strong>
-  <div class="des">——{{ des }}</div>
+  <strong>Blog</strong>
+  {%- if tag -%}
+    <div class="date">——{{ tag }}</div>
+  {%- endif -%}
   {%- if editable -%}
     <div class="edit"><a href="{{ url_for('sbl_blog.add') }}">Add</a></div>
   {%- endif -%}

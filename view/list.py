@@ -4,7 +4,7 @@ from re import sub
 from flask import Blueprint, abort, render_template, request, redirect, url_for, session
 
 from settings import SBL_PASSWORD
-from util.db import get_nav, get_item, get_list, add_item, edit_item
+from util.db import get_item, get_list, add_item, edit_item
 from util.util import md, auth
 
 sbl_list = Blueprint('sbl_list', __name__)
@@ -21,8 +21,7 @@ def index(year=None, tag=None):
     list = get_list(year, tag)
     if not list:
         abort(404)
-    return render_template('list/index.html', list=list, year=year, tag=tag, editable=editable,
-                           nav=get_nav())
+    return render_template('list/index.html', list=list, year=year, tag=tag, editable=editable)
 
 
 @sbl_list.route('/item/<int:item_id>')
@@ -38,7 +37,7 @@ def item_show(item_id):
     item = list(item)
     item.pop(7)
     item.append(review)
-    return render_template('list/item.html', item=item, editable=editable, nav=get_nav())
+    return render_template('list/item.html', item=item, editable=editable)
 
 
 @sbl_list.route('/add', methods=['POST', 'GET'])
@@ -63,7 +62,7 @@ def add():
             if comDate:
                 year = comDate[:4]
             return redirect(url_for('.index', year=year))
-        return render_template('list/add.html', nav=get_nav())
+        return render_template('list/add.html')
     else:
         return redirect(url_for('sbl_login.login'))
 
@@ -93,6 +92,6 @@ def edit(item_id):
         item = get_item(item_id)
         if not item:
             abort(404)
-        return render_template('list/edit.html', item=item, nav=get_nav())
+        return render_template('list/edit.html', item=item)
     else:
         return redirect(url_for('sbl_login.login'))

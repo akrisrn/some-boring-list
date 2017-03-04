@@ -18,7 +18,7 @@ $(function () {
     score: function () {
       return $(this).attr('data-score');
     },
-    path: "/static/raty/images",
+    path: "https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.1/images/",
     readOnly: true
   });
   $(".tag").each(function () {

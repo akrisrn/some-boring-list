@@ -2,8 +2,8 @@ from re import sub
 
 from flask import Blueprint, render_template, session, abort, request, redirect, url_for
 
-from settings import SBL_BLOG_NAME, SBL_BLOG_DES, SBL_PASSWORD, SBL_BLOG_SECRET_TAG
-from util.db import get_nav, get_blog, get_post, add_post, edit_post
+from settings import SBL_PASSWORD, SBL_BLOG_SECRET_TAG
+from util.db import get_blog, get_post, add_post, edit_post
 from util.util import md, auth
 
 sbl_blog = Blueprint('sbl_blog', __name__)
@@ -18,8 +18,7 @@ def index(tag=None):
     blog = get_blog(tag)
     if not blog:
         abort(404)
-    return render_template('blog/index.html', name=SBL_BLOG_NAME, des=SBL_BLOG_DES,
-                           secret_tag=SBL_BLOG_SECRET_TAG, blog=blog, tag=tag, editable=editable, nav=get_nav())
+    return render_template('blog/index.html', secret_tag=SBL_BLOG_SECRET_TAG, blog=blog, tag=tag, editable=editable)
 
 
 @sbl_blog.route('/post/<int:post_id>')
@@ -37,7 +36,7 @@ def post_show(post_id):
     post = list(post)
     post.pop(2)
     post.append(content)
-    return render_template('blog/post.html', post=post, editable=editable, nav=get_nav())
+    return render_template('blog/post.html', post=post, editable=editable)
 
 
 @sbl_blog.route('/add', methods=['POST', 'GET'])
@@ -50,7 +49,7 @@ def add():
             content = request.form["content"]
             add_post(title, content, addDate, updDate, tag)
             return redirect(url_for('.index'))
-        return render_template('blog/add.html', nav=get_nav())
+        return render_template('blog/add.html')
     else:
         return redirect(url_for('sbl_login.login'))
 
@@ -69,6 +68,6 @@ def edit(post_id):
         post = get_post(post_id)
         if not post:
             abort(404)
-        return render_template('blog/edit.html', post=post, nav=get_nav())
+        return render_template('blog/edit.html', post=post)
     else:
         return redirect(url_for('sbl_login.login'))

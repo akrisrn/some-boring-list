@@ -10,13 +10,13 @@
 {%- endblock -%}
 {%- block head -%}
   {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='raty/jquery.raty.css') }}">
-  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='raty/jquery.raty.js') }}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ cdn("jquery-raty-css") }}">
+  <script type="text/javascript" src="{{ cdn("jquery") }}"></script>
+  <script type="text/javascript" src="{{ cdn("jquery-raty") }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/list/list.js') | version }}"></script>
 {%- endblock -%}
 {%- block content -%}
-  <strong>SomeBoringList: </strong>
+  <strong>List: </strong>
   {{ list[3][0] }} / {{ list[3][1] }}
   {%- if list[3][1] -%}
     （{{ "%.2f" % (list[3][0] / list[3][1] * 100) }}%）

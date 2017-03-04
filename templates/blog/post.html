@@ -4,7 +4,7 @@
 {%- endblock -%}
 {%- block head -%}
   {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github-markdown.css') | version }}">
+  <link rel="stylesheet" type="text/css" href="{{ cdn("github-markdown-css") }}">
 {%- endblock -%}
 {%- block content -%}
   <strong>{{ post[1] }}</strong>
@@ -14,7 +14,7 @@
     Update date: {{ post[3] }}&nbsp;
     Tag:&nbsp;
     {%- for tag in post[4].split(";") -%}
-      {{ tag }}&nbsp;
+      <a href="{{ url_for('sbl_blog.index', tag=tag) }}">{{ tag }}</a>
     {%- endfor -%}
     {%- if editable -%}
       <div class="edit"><a href="{{ url_for('sbl_blog.edit', post_id=post[0]) }}">Edit</a></div>

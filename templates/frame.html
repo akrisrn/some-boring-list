@@ -5,30 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{%- block title -%}{%- endblock -%}</title>
+    <script type="text/javascript" src="{{ cdn("pace") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/pace.on.js') | version }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ cdn("pace-css") }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css') | version }}">
   {%- endblock -%}
 </head>
 <body>
-<div id="frame">
-  {%- block content -%}
-  {%- endblock -%}
-  <div id="footer">
-    {%- if nav[0] or nav[1] -%}
-      <a href="{{ url_for('sbl_list.index') }}">List </a>——
-    {%- endif -%}
-    {%- for y in nav[0] -%}
-      <a href="{{ url_for('sbl_list.index', year=y[0]) }}">{{ y[0] }}</a>
-    {%- endfor -%}
-    {%- for t in nav[1] -%}
-      <a href="{{ url_for('sbl_list.index', tag=t) }}">{{ t }}</a>
-    {%- endfor -%}<br>
-    {%- if nav[2] -%}
-      <a href="{{ url_for('sbl_blog.index') }}">Blog </a>——
-      {%- for t in nav[2] -%}
-        <a href="{{ url_for('sbl_blog.index', tag=t) }}">{{ t }}</a>
-      {%- endfor -%}
-    {%- endif -%}
+{%- if no_header is not defined or no_header == False -%}
+  <div id="header">
+    <a href="{{ url_for('sbl_index.index') }}">Some Boring List</a>
   </div>
+{%- endif -%}
+<div id="body">
+  <div id="frame">
+    {%- block content -%}
+    {%- endblock -%}
+  </div>
+  {%- if no_sidebar is not defined or no_sidebar == False -%}
+    {%- set nav = get_nav() -%}
+    <div id="sidebar">
+      {%- if nav[0] or nav[1] -%}
+        <a href="{{ url_for('sbl_list.index') }}"><strong>List</strong></a><br>
+      {%- endif -%}
+      {%- for y in nav[0] -%}
+        <a href="{{ url_for('sbl_list.index', year=y[0]) }}">{{ y[0] }}</a>
+      {%- endfor -%}
+      {%- for t in nav[1] -%}
+        <a href="{{ url_for('sbl_list.index', tag=t) }}">{{ t }}</a>
+      {%- endfor -%}<br>
+      {%- if nav[2] -%}
+        <a href="{{ url_for('sbl_blog.index') }}"><strong>Blog</strong></a><br>
+        {%- for t in nav[2] -%}
+          <a href="{{ url_for('sbl_blog.index', tag=t) }}">{{ t }}</a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </div>
+<div id="goTopBtn">
+  <img src="{{ url_for('static', filename='img/go2top.jpg') }}">
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/go2top.js') | version }}"></script>
 </body>
 </html>

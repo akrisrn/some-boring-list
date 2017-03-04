@@ -10,10 +10,12 @@
 1. 创建数据库并导入`SBL.sql`
 1. 在`settings.py`文件中填入相关配置信息
     - SECRET_KEY: 用于会话储存的密钥，用以下代码随机生成
-        ```
+
+        ```python
         >>> import os
         >>> os.urandom(24)
         ```
+
     - DEBUG: 是否开启调试模式
     - DB_HOST: 数据库主机地址
     - DB_PORT: 数据库端口
@@ -29,15 +31,18 @@
 1. 安装`mod_wsgi`和`virtualenv`
 1. 用`virtualenv`创建新的运行环境并安装依赖库
 1. 项目目录下创建`SBL.wsgi`文件并写入以下内容，自行替换路径
-    ```
+
+    ```wsgi
     activate_this = '/{运行环境路径}/bin/activate_this.py'
     execfile(activate_this, dict(__file__=activate_this))
     import sys
     sys.path.append('/{项目路径}/')
     from SBL import app as application
     ```
+
 1. 配置`Apache`虚拟主机，写入以下内容到`conf/httpd.conf`，自行替换路径
-    ```
+
+    ```apache
     <VirtualHost *:80>
         ServerName 127.0.0.1
         WSGIDaemonProcess SBL user=apache group=apache threads=5

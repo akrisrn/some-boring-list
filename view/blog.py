@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, session, abort, request, redirect,
 
 from settings import SBL_PASSWORD, SBL_BLOG_SECRET_TAG
 from util.db import get_blog, get_post, add_post, edit_post
-from util.util import md, auth
+from util.util import md, auth, referrer
 
 sbl_blog = Blueprint('sbl_blog', __name__)
 
@@ -51,7 +51,7 @@ def add():
             return redirect(url_for('.index'))
         return render_template('blog/add.html')
     else:
-        return redirect(url_for('sbl_login.login'))
+        return redirect(referrer(url_for('sbl_login.login'), request.url))
 
 
 @sbl_blog.route('/edit/<int:post_id>', methods=['POST', 'GET'])
@@ -70,4 +70,4 @@ def edit(post_id):
             abort(404)
         return render_template('blog/edit.html', post=post)
     else:
-        return redirect(url_for('sbl_login.login'))
+        return redirect(referrer(url_for('sbl_login.login'), request.url))

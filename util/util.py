@@ -31,6 +31,10 @@ def static_path(app, *path):
         return join(app.root_path, 'static', *path)
 
 
+def referrer(url, arg):
+    return "%s?ref=%s" % (url, arg)
+
+
 def version(url):
     return "%s?v=%s" % (url, SBL_VERSION)
 

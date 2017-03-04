@@ -8,19 +8,35 @@ sbl_login = Blueprint('sbl_login', __name__)
 
 @sbl_login.route('/login', methods=['POST', 'GET'])
 def login():
+    referrer = request.referrer
+    if not referrer or referrer.split('/')[-1] == url_for(".login")[1:]:
+        referrer = ""
     if auth(session, SBL_PASSWORD):
-        return redirect(url_for('sbl_index.index'))
+        if referrer:
+            return redirect(referrer)
+        else:
+            return redirect(url_for('sbl_index.index'))
     error = False
     if request.method == 'POST':
+        referrer = request.form['referrer']
+        if not referrer:
+            referrer = request.args.get('ref')
         if request.form['password'] == SBL_PASSWORD:
             session['password'] = SBL_PASSWORD
-            return redirect(url_for('sbl_index.index'))
+            if referrer:
+                return redirect(referrer)
+            else:
+                return redirect(url_for('sbl_index.index'))
         else:
             error = True
-    return render_template('login.html', error=error)
+    return render_template('login.html', referrer=referrer, error=error)
 
 
 @sbl_login.route('/logout')
 def logout():
     session.pop('password', None)
-    return redirect(url_for('sbl_index.index'))
+    referrer = request.referrer
+    if referrer:
+        return redirect(referrer)
+    else:
+        return redirect(url_for('sbl_index.index'))

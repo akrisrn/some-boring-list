@@ -5,7 +5,7 @@ from flask import Blueprint, abort, render_template, request, redirect, url_for,
 
 from settings import SBL_PASSWORD
 from util.db import get_item, get_list, add_item, edit_item
-from util.util import md, auth
+from util.util import md, auth, referrer
 
 sbl_list = Blueprint('sbl_list', __name__)
 
@@ -64,7 +64,7 @@ def add():
             return redirect(url_for('.index', year=year))
         return render_template('list/add.html')
     else:
-        return redirect(url_for('sbl_login.login'))
+        return redirect(referrer(url_for('sbl_login.login'), request.url))
 
 
 @sbl_list.route('/edit/<int:item_id>', methods=['POST', 'GET'])
@@ -94,4 +94,4 @@ def edit(item_id):
             abort(404)
         return render_template('list/edit.html', item=item)
     else:
-        return redirect(url_for('sbl_login.login'))
+        return redirect(referrer(url_for('sbl_login.login'), request.url))

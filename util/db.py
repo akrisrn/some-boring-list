@@ -1,7 +1,7 @@
 from pymysql import connect
 from xpinyin import Pinyin
 
-from settings import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, SBL_BLOG_SECRET_TAG
+from config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, SBL_BLOG_SECRET_TAG
 
 
 def get_nav():

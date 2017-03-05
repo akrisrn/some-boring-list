@@ -4,7 +4,7 @@ from flask import Blueprint
 from markdown import markdown
 from pymdownx import extra, github, mark, caret
 
-from settings import SBL_VERSION
+from config import SBL_VERSION
 
 
 def md(text):

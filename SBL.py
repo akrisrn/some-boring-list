@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from settings import SECRET_KEY, DEBUG
+from config import SECRET_KEY, DEBUG
 from util.db import get_nav
 from util.util import version, cdn
 from view.blog import sbl_blog

@@ -8,7 +8,7 @@
 
 ## 用法
 1. 创建数据库并导入`SBL.sql`
-1. 在`settings.py`文件中填入相关配置信息
+1. 将`config-example.py`改为`config.py`并填入相关配置信息
     - SECRET_KEY: 用于会话储存的密钥，用以下代码随机生成
 
         ```python

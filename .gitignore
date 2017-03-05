@@ -5,3 +5,4 @@ backup/
 logs/
 backup.sh
 SBL.wsgi
+config.py

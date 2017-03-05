@@ -3,7 +3,7 @@ from re import sub
 
 from flask import Blueprint, abort, render_template, request, redirect, url_for, session
 
-from settings import SBL_PASSWORD
+from config import SBL_PASSWORD
 from util.db import get_item, get_list, add_item, edit_item
 from util.util import md, auth, referrer
 

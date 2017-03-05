@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session
 
-from settings import SBL_PASSWORD
+from config import SBL_PASSWORD
 from util.util import auth
 
 sbl_login = Blueprint('sbl_login', __name__)

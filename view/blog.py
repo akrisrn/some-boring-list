@@ -2,7 +2,7 @@ from re import sub
 
 from flask import Blueprint, render_template, session, abort, request, redirect, url_for
 
-from settings import SBL_PASSWORD, SBL_BLOG_SECRET_TAG
+from config import SBL_PASSWORD, SBL_BLOG_SECRET_TAG
 from util.db import get_blog, get_post, add_post, edit_post
 from util.util import md, auth, referrer
 

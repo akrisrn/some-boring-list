@@ -9,7 +9,7 @@ sbl_login = Blueprint('sbl_login', __name__)
 @sbl_login.route('/login/', methods=['POST', 'GET'])
 def login():
     referrer = request.referrer
-    if not referrer or referrer.split('/')[-1] == url_for(".login")[1:]:
+    if not referrer or referrer.split('/')[-2] == url_for(".login")[1:-1]:
         referrer = ""
     if logged():
         if referrer:

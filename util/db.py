@@ -7,17 +7,31 @@ from config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, SBL_BLOG_SEC
 def get_nav():
     conn = get_connect()
     cur = conn.cursor()
+    list_data = []
     cur.execute("SELECT date_format(addDate,'%Y') FROM list GROUP BY date_format(addDate,'%Y') DESC;")
-    year = cur.fetchall()
+    years = cur.fetchall()
+    for year in years:
+        cur.execute("SELECT group_concat(m) FROM "
+                    "(SELECT date_format(addDate,'%%m') AS m FROM list WHERE addDate LIKE '%s%%' "
+                    "GROUP BY date_format(addDate,'%%m')) t" % year)
+        months = cur.fetchall()[0][0].split(",")
+        list_data.append([year[0], months])
     cur.execute("SELECT tag FROM list GROUP BY tag;")
-    list_tag = cur.fetchall()
+    list_data = [list_data, split_tag(cur.fetchall())]
+    blog_data = []
+    cur.execute("SELECT date_format(addDate,'%Y') FROM blog GROUP BY date_format(addDate,'%Y') DESC;")
+    years = cur.fetchall()
+    for year in years:
+        cur.execute("SELECT group_concat(m) FROM "
+                    "(SELECT date_format(addDate,'%%m') AS m FROM blog WHERE addDate LIKE '%s%%' "
+                    "GROUP BY date_format(addDate,'%%m')) t" % year)
+        months = cur.fetchall()[0][0].split(",")
+        blog_data.append([year[0], months])
     cur.execute("SELECT tag FROM blog WHERE tag NOT LIKE '%%%s%%' GROUP BY tag;" % SBL_BLOG_SECRET_TAG)
-    blog_tag = cur.fetchall()
+    blog_data = [blog_data, split_tag(cur.fetchall())]
     cur.close()
     conn.close()
-    list_tag = split_tag(list_tag)
-    blog_tag = split_tag(blog_tag)
-    return year[1:], list_tag, blog_tag
+    return list_data, blog_data
 
 
 def split_tag(tag):

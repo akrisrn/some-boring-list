@@ -25,28 +25,27 @@
   {%- if no_sidebar is not defined or no_sidebar == False -%}
     {%- set nav = get_nav() -%}
     <div id="sidebar">
-      {%- if nav[0] or nav[1] -%}
-        <a href="{{ url_for('sbl_list.index') }}"><strong>List</strong></a>
+      {%- for n in nav -%}
+        {%- set cur = loop.cycle('list', 'blog') -%}
+        <a href="{{ url_for('sbl_' + cur + '.index') }}"><strong>{{ cur | upper }}</strong></a>
         <hr>
-      {%- endif -%}
-      {%- for y in nav[0] -%}
-        <a href="{{ url_for('sbl_list.index', year=y[0]) }}">{{ y[0] }}</a>
-      {%- endfor -%}
-      {%- for t in nav[1] -%}
-        <a href="{{ url_for('sbl_list.index', tag=t) }}">{{ t }}</a>
-      {%- endfor -%}<br>
-      {%- if nav[2] -%}
-        <a href="{{ url_for('sbl_blog.index') }}"><strong>Blog</strong></a>
-        <hr>
-        {%- for t in nav[2] -%}
-          <a href="{{ url_for('sbl_blog.index', tag=t) }}">{{ t }}</a>
+        {%- for date in n[0] -%}
+          <a href="{{ url_for('sbl_' + cur + '.index', year=date[0]) }}">{{ date[0] }}</a>
+          {%- for month in date[1] -%}
+            <a href="{{ url_for('sbl_' + cur + '.index', year=date[0], month=month) }}">{{ month }}</a>
+          {%- endfor -%}
+          <br>
         {%- endfor -%}
-      {%- endif -%}
+        {%- for tag in n[1] -%}
+          <a href="{{ url_for('sbl_' + cur + '.index', tag=tag) }}">{{ tag }}</a>
+        {%- endfor -%}
+        <br>
+      {%- endfor -%}
       <hr>
       {%- if logged() -%}
-        <a href="{{ url_for('sbl_login.logout') }}"><strong>Logout</strong></a>
+        <a href="{{ url_for('sbl_login.logout') }}"><strong>LOGOUT</strong></a>
       {%- else -%}
-        <a href="{{ url_for('sbl_login.login') }}"><strong>Login</strong></a>
+        <a href="{{ url_for('sbl_login.login') }}"><strong>LOGIN</strong></a>
       {%- endif -%}
     </div>
   {%- endif -%}

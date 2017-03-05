@@ -10,17 +10,21 @@ sbl_list = Blueprint('sbl_list', __name__)
 
 
 @sbl_list.route('/')
-@sbl_list.route('/year/<int:year>')
+@sbl_list.route('/date/<int:year>')
+@sbl_list.route('/date/<int:year>/<string:month>')
 @sbl_list.route('/tag/<string:tag>')
-@sbl_list.route('/year/<int:year>/tag/<string:tag>')
-def index(year=None, tag=None):
+@sbl_list.route('/date/<int:year>/tag/<string:tag>')
+@sbl_list.route('/date/<int:year>/<string:month>/tag/<string:tag>')
+def index(year=None, month=None, tag=None):
     editable = logged()
     if not tag and not year:
         year = datetime.now().year
-    list = get_list(year, tag)
+    if month and month not in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]:
+        abort(404)
+    list = get_list(year, month, tag)
     if not list:
         abort(404)
-    return render_template('list/index.html', list=list, year=year, tag=tag, editable=editable)
+    return render_template('list/index.html', list=list, year=year, month=month, tag=tag, editable=editable)
 
 
 @sbl_list.route('/item/<int:item_id>')

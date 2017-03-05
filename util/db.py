@@ -24,29 +24,34 @@ def split_tag(tag):
     return sorted(set([t for ta in tag for t in ta[0].split(";")]), key=Pinyin().get_initials)
 
 
-def get_list(year, tag):
+def get_list(year, month, tag):
     and_tag = ""
     if tag:
         and_tag = "AND tag LIKE '%%%s%%' " % convert(tag)[0]
-    and_year = ""
+    and_data = "AND %s LIKE '%d-%s%%' "
+    and_add_date = ""
+    and_com_date = ""
     if year:
-        and_year = "AND addDate LIKE '%d%%' " % year
+        if not month:
+            month = ""
+        and_add_date = and_data % ("addDate", year, month)
+        and_com_date = and_data % ("comDate", year, month)
     conn = get_connect()
     cur = conn.cursor()
     cur.execute("SELECT id,name,addDate,tag "
                 "FROM list "
                 "WHERE state=0 %s%s"
-                "ORDER BY addDate,name;" % (and_year, and_tag))
+                "ORDER BY addDate,name;" % (and_add_date, and_tag))
     todo = cur.fetchall()
     cur.execute("SELECT id,name,comDate,score,isReview,tag "
                 "FROM list "
                 "WHERE state=1 %s%s"
-                "ORDER BY comDate DESC,name;" % (and_year, and_tag))
+                "ORDER BY comDate DESC,name;" % (and_com_date, and_tag))
     done = cur.fetchall()
     cur.execute("SELECT id,name,addDate,isReview,tag "
                 "FROM list "
                 "WHERE state=2 %s%s"
-                "ORDER BY addDate DESC,name;" % (and_year, and_tag))
+                "ORDER BY addDate DESC,name;" % (and_add_date, and_tag))
     undo = cur.fetchall()
     cur.close()
     conn.close()

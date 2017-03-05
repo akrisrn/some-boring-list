@@ -4,6 +4,9 @@
   {%- if year -%}
     {{ year }}
   {%- endif -%}
+  {%- if month -%}
+    /{{ month }}/
+  {%- endif -%}
   {%- if tag -%}
     {{ tag }}
   {%- endif -%}
@@ -27,6 +30,9 @@
     {%- if year -%}
       {{ year }}
     {%- endif -%}
+    {%- if month -%}
+      /{{ month }}/
+    {%- endif -%}
     {%- if tag -%}
       {{ tag }}
     {%- endif -%}
@@ -45,9 +51,13 @@
         <div class="item">{{ l[1] }}</div>
         <div class="date">
           {%- if year -%}
-            ——{{ "%02d-%02d" % (l[2].month, l[2].day) }}
+            {%- if month -%}
+              ——{{ "%02d" % l[2].day }}
+            {%- else -%}
+              ——{{ "%02d/%02d" % (l[2].month, l[2].day) }}
+            {%- endif -%}
           {%- else -%}
-            ——{{ l[2] }}
+            ——{{ "%d/%02d/%02d" % (l[2].year, l[2].month, l[2].day) }}
           {%- endif -%}
         </div>
         {%- if editable -%}
@@ -84,9 +94,13 @@
         <div class="star" data-score="{{ l[3]/2 }}"></div>
         <div class="date">
           {%- if year -%}
-            ——{{ "%02d-%02d" % (l[2].month, l[2].day) }}
+            {%- if month -%}
+              ——{{ "%02d" % l[2].day }}
+            {%- else -%}
+              ——{{ "%02d/%02d" % (l[2].month, l[2].day) }}
+            {%- endif -%}
           {%- else -%}
-            ——{{ l[2] }}
+            ——{{ "%d/%02d/%02d" % (l[2].year, l[2].month, l[2].day) }}
           {%- endif -%}
         </div>
         {%- if editable -%}
@@ -122,9 +136,13 @@
         {%- endif -%}
         <div class="date">
           {%- if year -%}
-            ——{{ "%02d-%02d" % (l[2].month, l[2].day) }}
-          {% else %}
-            ——{{ l[2] }}
+            {%- if month -%}
+              ——{{ "%02d" % l[2].day }}
+            {%- else -%}
+              ——{{ "%02d/%02d" % (l[2].month, l[2].day) }}
+            {%- endif -%}
+          {%- else -%}
+            ——{{ "%d/%02d/%02d" % (l[2].year, l[2].month, l[2].day) }}
           {%- endif -%}
         </div>
         {%- if editable -%}

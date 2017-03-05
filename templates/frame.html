@@ -43,8 +43,11 @@
         {%- endfor -%}
       {%- endif -%}
       <hr>
-      <a href="{{ url_for('sbl_login.login') }}"><strong>Login</strong></a>
-      <a href="{{ url_for('sbl_login.logout') }}"><strong>Logout</strong></a>
+      {%- if logged() -%}
+        <a href="{{ url_for('sbl_login.logout') }}"><strong>Logout</strong></a>
+      {%- else -%}
+        <a href="{{ url_for('sbl_login.login') }}"><strong>Login</strong></a>
+      {%- endif -%}
     </div>
   {%- endif -%}
 </div>

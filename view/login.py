@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session
 
 from config import SBL_PASSWORD
-from util.util import auth
+from util.util import logged
 
 sbl_login = Blueprint('sbl_login', __name__)
 
@@ -11,7 +11,7 @@ def login():
     referrer = request.referrer
     if not referrer or referrer.split('/')[-1] == url_for(".login")[1:]:
         referrer = ""
-    if auth(session, SBL_PASSWORD):
+    if logged():
         if referrer:
             return redirect(referrer)
         else:

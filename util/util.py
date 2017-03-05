@@ -1,10 +1,11 @@
+from functools import wraps
 from os.path import join
 
-from flask import Blueprint
+from flask import Blueprint, session, redirect, url_for, request
 from markdown import markdown
 from pymdownx import extra, github, mark, caret
 
-from config import SBL_VERSION
+from config import SBL_PASSWORD, SBL_VERSION
 
 
 def md(text):
@@ -17,11 +18,22 @@ def md(text):
     ])
 
 
-def auth(session, password):
-    if session.get('password') == password:
+def logged():
+    if session.get('password') == SBL_PASSWORD:
         return True
     else:
         return False
+
+
+def auth(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if logged():
+            return func(*args, **kwargs)
+        else:
+            return redirect(url_for('sbl_login.login', ref=request.url))
+
+    return wrapper
 
 
 def static_path(app, *path):
@@ -29,10 +41,6 @@ def static_path(app, *path):
         return join(app.root_path, '../static', *path)
     else:
         return join(app.root_path, 'static', *path)
-
-
-def referrer(url, arg):
-    return "%s?ref=%s" % (url, arg)
 
 
 def version(url):

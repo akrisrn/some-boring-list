@@ -11,11 +11,11 @@ sbl_blog = Blueprint('sbl_blog', __name__)
 
 
 @sbl_blog.route('/')
-@sbl_blog.route('/date/<int:year>')
-@sbl_blog.route('/date/<int:year>/<string:month>')
-@sbl_blog.route('/tag/<string:tag>')
-@sbl_blog.route('/date/<int:year>/tag/<string:tag>')
-@sbl_blog.route('/date/<int:year>/<string:month>/tag/<string:tag>')
+@sbl_blog.route('/date/<int:year>/')
+@sbl_blog.route('/date/<int:year>/<string:month>/')
+@sbl_blog.route('/tag/<string:tag>/')
+@sbl_blog.route('/date/<int:year>/tag/<string:tag>/')
+@sbl_blog.route('/date/<int:year>/<string:month>/tag/<string:tag>/')
 def index(year=None, month=None, tag=None):
     editable = logged()
     if not editable and tag == SBL_BLOG_SECRET_TAG:
@@ -31,7 +31,7 @@ def index(year=None, month=None, tag=None):
                            year=year, month=month, tag=tag, editable=editable)
 
 
-@sbl_blog.route('/post/<int:post_id>')
+@sbl_blog.route('/post/<int:post_id>/')
 def post_show(post_id):
     editable = logged()
     post = get_post(post_id)
@@ -49,7 +49,7 @@ def post_show(post_id):
     return render_template('blog/post.html', post=post, editable=editable)
 
 
-@sbl_blog.route('/add', methods=['POST', 'GET'])
+@sbl_blog.route('/add/', methods=['POST', 'GET'])
 @auth
 def add():
     if request.method == 'POST':
@@ -62,7 +62,7 @@ def add():
     return render_template('blog/add.html')
 
 
-@sbl_blog.route('/edit/<int:post_id>', methods=['POST', 'GET'])
+@sbl_blog.route('/edit/<int:post_id>/', methods=['POST', 'GET'])
 @auth
 def edit(post_id):
     if request.method == 'POST':

@@ -10,6 +10,6 @@ def favicon():
     return send_from_directory(static_path(sbl_redirect), "favicon.ico")
 
 
-@sbl_redirect.route('/life-game')
+@sbl_redirect.route('/life-game/')
 def life_game():
     return render_template("life-game.html")

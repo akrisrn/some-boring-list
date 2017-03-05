@@ -6,7 +6,7 @@ from util.util import logged
 sbl_login = Blueprint('sbl_login', __name__)
 
 
-@sbl_login.route('/login', methods=['POST', 'GET'])
+@sbl_login.route('/login/', methods=['POST', 'GET'])
 def login():
     referrer = request.referrer
     if not referrer or referrer.split('/')[-1] == url_for(".login")[1:]:
@@ -32,7 +32,7 @@ def login():
     return render_template('login.html', referrer=referrer, error=error)
 
 
-@sbl_login.route('/logout')
+@sbl_login.route('/logout/')
 def logout():
     session.pop('password', None)
     referrer = request.referrer

@@ -10,11 +10,11 @@ sbl_list = Blueprint('sbl_list', __name__)
 
 
 @sbl_list.route('/')
-@sbl_list.route('/date/<int:year>')
-@sbl_list.route('/date/<int:year>/<string:month>')
-@sbl_list.route('/tag/<string:tag>')
-@sbl_list.route('/date/<int:year>/tag/<string:tag>')
-@sbl_list.route('/date/<int:year>/<string:month>/tag/<string:tag>')
+@sbl_list.route('/date/<int:year>/')
+@sbl_list.route('/date/<int:year>/<string:month>/')
+@sbl_list.route('/tag/<string:tag>/')
+@sbl_list.route('/date/<int:year>/tag/<string:tag>/')
+@sbl_list.route('/date/<int:year>/<string:month>/tag/<string:tag>/')
 def index(year=None, month=None, tag=None):
     editable = logged()
     if not tag and not year:
@@ -27,7 +27,7 @@ def index(year=None, month=None, tag=None):
     return render_template('list/index.html', list=list, year=year, month=month, tag=tag, editable=editable)
 
 
-@sbl_list.route('/item/<int:item_id>')
+@sbl_list.route('/item/<int:item_id>/')
 def item_show(item_id):
     editable = logged()
     item = get_item(item_id)
@@ -43,7 +43,7 @@ def item_show(item_id):
     return render_template('list/item.html', item=item, editable=editable)
 
 
-@sbl_list.route('/add', methods=['POST', 'GET'])
+@sbl_list.route('/add/', methods=['POST', 'GET'])
 @auth
 def add():
     if request.method == 'POST':
@@ -68,7 +68,7 @@ def add():
     return render_template('list/add.html')
 
 
-@sbl_list.route('/edit/<int:item_id>', methods=['POST', 'GET'])
+@sbl_list.route('/edit/<int:item_id>/', methods=['POST', 'GET'])
 @auth
 def edit(item_id):
     if request.method == 'POST':

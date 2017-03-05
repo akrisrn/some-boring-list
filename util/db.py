@@ -60,17 +60,24 @@ def get_list(year, month, tag):
     return todo, done, undo, (len(done), len(done) + len(todo))
 
 
-def get_blog(tag):
-    if not tag:
-        tag = ""
-    else:
-        tag = convert(tag)[0].replace(";", "")
+def get_blog(year, month, tag):
+    and_tag = ""
+    if tag:
+        and_tag = "tag LIKE '%%%s%%' " % convert(tag)[0].replace(";", "")
+    and_add_date = ""
+    if year:
+        if not month:
+            month = ""
+        and_add_date = "addDate LIKE '%d-%s%%' " % (year, month)
+    and_and = ""
+    if tag and year:
+        and_and = "AND "
     conn = get_connect()
     cur = conn.cursor()
     cur.execute("SELECT id,title,addDate,tag "
                 "FROM blog "
-                "WHERE tag LIKE '%%%s%%' "
-                "ORDER BY addDate DESC;" % tag)
+                "WHERE %s%s%s "
+                "ORDER BY addDate DESC;" % (and_add_date, and_and, and_tag))
     blog = cur.fetchall()
     cur.close()
     conn.close()

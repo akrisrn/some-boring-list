@@ -1,3 +1,4 @@
+from datetime import datetime
 from re import sub
 
 from flask import Blueprint, render_template, abort, request, redirect, url_for
@@ -10,15 +11,24 @@ sbl_blog = Blueprint('sbl_blog', __name__)
 
 
 @sbl_blog.route('/')
+@sbl_blog.route('/date/<int:year>')
+@sbl_blog.route('/date/<int:year>/<string:month>')
 @sbl_blog.route('/tag/<string:tag>')
-def index(tag=None):
+@sbl_blog.route('/date/<int:year>/tag/<string:tag>')
+@sbl_blog.route('/date/<int:year>/<string:month>/tag/<string:tag>')
+def index(year=None, month=None, tag=None):
     editable = logged()
     if not editable and tag == SBL_BLOG_SECRET_TAG:
         abort(404)
-    blog = get_blog(tag)
+    if not tag and not year:
+        year = datetime.now().year
+    if month and month not in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]:
+        abort(404)
+    blog = get_blog(year, month, tag)
     if not blog:
         abort(404)
-    return render_template('blog/index.html', secret_tag=SBL_BLOG_SECRET_TAG, blog=blog, tag=tag, editable=editable)
+    return render_template('blog/index.html', secret_tag=SBL_BLOG_SECRET_TAG, blog=blog,
+                           year=year, month=month, tag=tag, editable=editable)
 
 
 @sbl_blog.route('/post/<int:post_id>')

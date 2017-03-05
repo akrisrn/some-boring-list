@@ -1,11 +1,11 @@
 {%- extends "frame.html" -%}
 {%- block title -%}
-  SBL---
+  List---
   {%- if year -%}
     {{ year }}
   {%- endif -%}
   {%- if month -%}
-    /{{ month }}/
+    /{{ month }}
   {%- endif -%}
   {%- if tag -%}
     {{ tag }}
@@ -31,7 +31,7 @@
       {{ year }}
     {%- endif -%}
     {%- if month -%}
-      /{{ month }}/
+      /{{ month }}
     {%- endif -%}
     {%- if tag -%}
       {{ tag }}

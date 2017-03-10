@@ -27,8 +27,8 @@ def get_nav():
     years = cur.fetchall()
     for year in years:
         cur.execute("SELECT group_concat(m) FROM "
-                    "(SELECT date_format(addDate,'%%m') AS m FROM blog WHERE addDate LIKE '%s%%' "
-                    "GROUP BY date_format(addDate,'%%m')) t" % year)
+                    "(SELECT date_format(addDate,'%%m') AS m FROM blog WHERE %s addDate LIKE '%s%%' "
+                    "GROUP BY date_format(addDate,'%%m')) t" % (secret[5:] + " AND", year[0]))
         months = cur.fetchall()[0][0].split(",")
         blog_data.append([year[0], months])
     cur.execute("SELECT tag FROM blog %s GROUP BY tag;" % secret)

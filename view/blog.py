@@ -55,7 +55,7 @@ def add():
     if request.method == 'POST':
         title = request.form["title"]
         updDate = addDate = request.form["addDate"]
-        tag = request.form["tag"].replace(" ", "")
+        tag = request.form["tag"].replace(" ", "").replace("；", ";")
         content = request.form["content"]
         add_post(title, content, addDate, updDate, tag)
         return redirect(url_for('.index'))
@@ -69,7 +69,7 @@ def edit(post_id):
         title = request.form["title"]
         addDate = request.form["addDate"]
         updDate = request.form["updDate"]
-        tag = request.form["tag"].replace(" ", "")
+        tag = request.form["tag"].replace(" ", "").replace("；", ";")
         content = request.form["content"]
         edit_post(post_id, title, content, addDate, updDate, tag)
         return redirect(url_for('.post_show', post_id=post_id))

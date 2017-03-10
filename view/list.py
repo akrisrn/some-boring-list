@@ -55,7 +55,7 @@ def add():
         else:
             comDate = addDate = request.form["comDate"]
         score = int(request.form["score"])
-        tag = request.form["tag"].replace(" ", "")
+        tag = request.form["tag"].replace(" ", "").replace("；", ";")
         review = request.form["review"]
         isReview = 0
         if review:
@@ -77,7 +77,7 @@ def edit(item_id):
         addDate = request.form["addDate"]
         comDate = request.form["comDate"]
         score = int(request.form["score"])
-        tag = request.form["tag"].replace(" ", "")
+        tag = request.form["tag"].replace(" ", "").replace("；", ";")
         review = request.form["review"]
         isReview = 0
         if review:

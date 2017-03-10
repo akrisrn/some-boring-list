@@ -2,9 +2,13 @@ from pymysql import connect
 from xpinyin import Pinyin
 
 from config import DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, SBL_BLOG_SECRET_TAG
+from util.util import logged
 
 
 def get_nav():
+    secret = "WHERE tag NOT LIKE '%%%s%%'" % SBL_BLOG_SECRET_TAG
+    if logged():
+        secret = ""
     conn = get_connect()
     cur = conn.cursor()
     list_data = []
@@ -27,7 +31,7 @@ def get_nav():
                     "GROUP BY date_format(addDate,'%%m')) t" % year)
         months = cur.fetchall()[0][0].split(",")
         blog_data.append([year[0], months])
-    cur.execute("SELECT tag FROM blog WHERE tag NOT LIKE '%%%s%%' GROUP BY tag;" % SBL_BLOG_SECRET_TAG)
+    cur.execute("SELECT tag FROM blog %s GROUP BY tag;" % secret)
     blog_data = [blog_data, split_tag(cur.fetchall())]
     cur.close()
     conn.close()
@@ -75,6 +79,9 @@ def get_list(year, month, tag):
 
 
 def get_blog(year, month, tag):
+    secret = "tag NOT LIKE '%%%s%%' AND " % SBL_BLOG_SECRET_TAG
+    if logged():
+        secret = ""
     and_tag = ""
     if tag:
         and_tag = "tag LIKE '%%%s%%' " % convert(tag)[0].replace(";", "")
@@ -90,8 +97,8 @@ def get_blog(year, month, tag):
     cur = conn.cursor()
     cur.execute("SELECT id,title,addDate,tag "
                 "FROM blog "
-                "WHERE %s%s%s "
-                "ORDER BY addDate DESC;" % (and_add_date, and_and, and_tag))
+                "WHERE %s%s%s%s "
+                "ORDER BY addDate DESC;" % (secret, and_add_date, and_and, and_tag))
     blog = cur.fetchall()
     cur.close()
     conn.close()
